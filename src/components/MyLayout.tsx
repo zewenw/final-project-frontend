@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -6,29 +6,127 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, Button, theme, Dropdown, MenuProps } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Breadcrumb, Layout, Menu, Button, theme, Dropdown, MenuProps } from "antd";
+import { useNavigate, useLocation } from "react-router-dom";
 import { LogoImg as Logo, AvatarImg as Avatar } from "../pages/utils/Tool";
 
 const { Header, Sider, Content } = Layout;
 
+const findOpenKeys = (key: string, menus: any) => {
+  const result: string[] = [];
+  const findInfo = (arr: any) => {
+    arr.forEach((item: any) => {
+      if (key.includes(item.key)) {
+        result.push(item.key);
+        if (item.children) {
+          findInfo(item.children);
+        }
+      }
+    });
+  };
+  findInfo(menus);
+  return result;
+};
+
+const personalOnClick = (e: any) => {
+  //TODO personal Information function
+  console.log(e);
+};
+
+const onLogout = () => {
+  //TODO Logout function
+  alert("logout");
+};
+
+const findDeepPath = (key: string, menus: any) => {
+  const result: any = [];
+  const findInfo = (arr: any) => {
+    arr.forEach((item: any) => {
+      const { children, ...info } = item;
+      result.push(info);
+      if (children) {
+        findInfo(children);
+      }
+    });
+  };
+  findInfo(menus);
+  const tmpData = result.filter((item: any) => key.includes(item.key));
+  if (tmpData.length > 0) {
+    return [{ label: "Home", key: "/admin/dashboard" }, ...tmpData];
+  }
+  return [];
+};
+
 const MyLayout = ({ children }: any) => {
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
-  const navigate = useNavigate();
-
-  const personalOnClick = (e: any) => {
-    //TODO personal Information function
-    console.log(e);
-  };
-
-  const onLogout = () => {
-    //TODO Logout function
-    alert("logout");
-  };
+  const [breadcrumbs, setBreadcrumbs] = useState<any>([]);
+  const sideMenuItems: MenuProps["items"] = [
+    {
+      key: "/monitor",
+      icon: <VideoCameraOutlined />,
+      label: "Monitor",
+      children: [
+        {
+          label: "Tracing",
+          key: "/monitor/tracing",
+        },
+        {
+          label: "Hardware",
+          key: "/monitor/hardware",
+        },
+        {
+          label: "Log",
+          key: "/monitor/log",
+        },
+        {
+          label: "Service",
+          key: "/monitor/service",
+        },
+        {
+          label: "API",
+          key: "/monitor/api",
+        },
+      ],
+    },
+    {
+      key: "/admin",
+      icon: <UserOutlined />,
+      label: "Admin",
+      children: [
+        {
+          label: "User",
+          key: "/admin/user",
+        },
+        {
+          label: "Role",
+          key: "/admin/role",
+        },
+        {
+          label: "Permission",
+          key: "/admin/permission",
+        },
+      ],
+    },
+    {
+      key: "/photo",
+      icon: <VideoCameraOutlined />,
+      label: "Photo",
+      children: [
+        {
+          label: "Upload",
+          key: "/photo/upload",
+        },
+        {
+          label: "View All",
+          key: "/photo/view",
+        },
+        {
+          label: "Download",
+          key: "/photo/download",
+        },
+      ],
+    },
+  ];
 
   const dropdownItems: MenuProps["items"] = [
     {
@@ -40,6 +138,20 @@ const MyLayout = ({ children }: any) => {
       label: <a onClick={onLogout}>Logout</a>,
     },
   ];
+
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
+  const navigate = useNavigate();
+
+  const { pathname } = useLocation();
+
+  const tmpOpenKeys = findOpenKeys(pathname, sideMenuItems);
+
+  useEffect(() => {
+    setBreadcrumbs(findDeepPath(pathname, sideMenuItems));
+  }, [pathname]);
   return (
     <Layout
       style={{ width: "100vw", height: "100vh" }}
@@ -55,74 +167,9 @@ const MyLayout = ({ children }: any) => {
           }}
           theme="light"
           mode="inline"
-          defaultSelectedKeys={["1"]}
-          items={[
-            {
-              key: "/monitor",
-              icon: <VideoCameraOutlined />,
-              label: "Monitor",
-              children: [
-                {
-                  label: "Tracing",
-                  key: "/monitor/tracing",
-                },
-                {
-                  label: "Hardware",
-                  key: "/monitor/hardware",
-                },
-                {
-                  label: "Log",
-                  key: "/monitor/log",
-                },
-                {
-                  label: "Service",
-                  key: "/monitor/service",
-                },
-                {
-                  label: "API",
-                  key: "/monitor/api",
-                },
-              ],
-            },
-            {
-              key: "/admin",
-              icon: <UserOutlined />,
-              label: "Admin",
-              children: [
-                {
-                  label: "User",
-                  key: "/admin/user",
-                },
-                {
-                  label: "Role",
-                  key: "/admin/role",
-                },
-                {
-                  label: "Permission",
-                  key: "/admin/permission",
-                },
-              ],
-            },
-            {
-              key: "/photo",
-              icon: <VideoCameraOutlined />,
-              label: "Photo",
-              children: [
-                {
-                  label: "Upload",
-                  key: "/photo/upload",
-                },
-                {
-                  label: "View All",
-                  key: "/photo/view",
-                },
-                {
-                  label: "Download",
-                  key: "/photo/download",
-                },
-              ],
-            },
-          ]}
+          defaultOpenKeys={tmpOpenKeys}
+          defaultSelectedKeys={tmpOpenKeys}
+          items={sideMenuItems}
         />
       </Sider>
       <Layout>
@@ -138,7 +185,7 @@ const MyLayout = ({ children }: any) => {
             }}
           />
           <span className="app-title">
-          Java-Based Microservice Development Scaffolding
+            Java-Based Microservice Development Scaffolding
           </span>
           <Dropdown menu={{ items: dropdownItems }} placement="bottom" arrow>
             <img
@@ -161,6 +208,13 @@ const MyLayout = ({ children }: any) => {
             background: colorBgContainer,
           }}
         >
+          <Breadcrumb>
+            {breadcrumbs.map((item: any) => (
+              <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>
+            ))}
+
+            {/* <Breadcrumb.Item>Ant Design</Breadcrumb.Item> */}
+          </Breadcrumb>
           {children}
         </Content>
       </Layout>
