@@ -44,11 +44,11 @@ function Login() {
               rules={[
                 {
                   required: true,
-                  message: 'please input your username',
+                  message: 'please enter your username',
                 },
               ]}
             >
-              <Input placeholder='please input your username' />
+              <Input placeholder='please enter your username' />
             </Form.Item>
             <Form.Item
               label='password'
@@ -56,11 +56,11 @@ function Login() {
               rules={[
                 {
                   required: true,
-                  message: 'please input your password',
+                  message: 'please enter your password',
                 },
               ]}
             >
-              <Input.Password placeholder='please input your password' />
+              <Input.Password placeholder='please enter your password' />
             </Form.Item>
             <Form.Item>
               <Button

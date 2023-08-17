@@ -6,7 +6,15 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, Button, theme, Dropdown, MenuProps } from "antd";
+import {
+  Breadcrumb,
+  Layout,
+  Menu,
+  Button,
+  theme,
+  Dropdown,
+  MenuProps,
+} from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LogoImg as Logo, AvatarImg as Avatar } from "../pages/utils/Tool";
 
@@ -52,7 +60,7 @@ const findDeepPath = (key: string, menus: any) => {
   findInfo(menus);
   const tmpData = result.filter((item: any) => key.includes(item.key));
   if (tmpData.length > 0) {
-    return [{ label: "Home", key: "/admin/dashboard" }, ...tmpData];
+    return [{ label: "Home", key: "/admin/user" }, ...tmpData];
   }
   return [];
 };
@@ -212,9 +220,8 @@ const MyLayout = ({ children }: any) => {
             {breadcrumbs.map((item: any) => (
               <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>
             ))}
-
-            {/* <Breadcrumb.Item>Ant Design</Breadcrumb.Item> */}
           </Breadcrumb>
+         
           {children}
         </Content>
       </Layout>
