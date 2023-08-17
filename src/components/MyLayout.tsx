@@ -8,8 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme, Dropdown, MenuProps } from "antd";
 import { useNavigate } from "react-router-dom";
-import Logo from "../assets/logo.png";
-import Avatar from "../assets/avatar.png";
+import { LogoImg as Logo, AvatarImg as Avatar } from "../pages/utils/Tool";
 
 const { Header, Sider, Content } = Layout;
 
@@ -88,18 +87,18 @@ const MyLayout = ({ children }: any) => {
             {
               key: "/admin",
               icon: <UserOutlined />,
-              label: "Admnin Management",
+              label: "Admin",
               children: [
                 {
-                  label: "User Management",
+                  label: "User",
                   key: "/admin/user",
                 },
                 {
-                  label: "Role Management",
+                  label: "Role",
                   key: "/admin/role",
                 },
                 {
-                  label: "Permission Management",
+                  label: "Permission",
                   key: "/admin/permission",
                 },
               ],
@@ -107,7 +106,7 @@ const MyLayout = ({ children }: any) => {
             {
               key: "/photo",
               icon: <VideoCameraOutlined />,
-              label: "Photo Management",
+              label: "Photo",
               children: [
                 {
                   label: "Upload",
@@ -139,7 +138,7 @@ const MyLayout = ({ children }: any) => {
             }}
           />
           <span className="app-title">
-            Scaffolding for Java Microservice Development
+          Java-Based Microservice Development Scaffolding
           </span>
           <Dropdown menu={{ items: dropdownItems }} placement="bottom" arrow>
             <img
@@ -151,8 +150,7 @@ const MyLayout = ({ children }: any) => {
                 marginTop: "16px",
                 marginRight: "20px",
               }}
-            >
-            </img>
+            />
           </Dropdown>
         </Header>
         <Content
