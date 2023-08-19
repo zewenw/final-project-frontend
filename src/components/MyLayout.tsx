@@ -16,7 +16,7 @@ import {
   MenuProps,
 } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LogoImg as Logo, AvatarImg as Avatar } from "../pages/utils/Tool";
+import { LogoImg as Logo, AvatarImg as Avatar } from "../utils/Tool";
 
 const { Header, Sider, Content } = Layout;
 
@@ -69,6 +69,17 @@ const MyLayout = ({ children }: any) => {
   const [collapsed, setCollapsed] = useState(false);
   const [breadcrumbs, setBreadcrumbs] = useState<any>([]);
   const sideMenuItems: MenuProps["items"] = [
+    {
+      key: "/dashboard",
+      icon: <VideoCameraOutlined />,
+      label: "Dashboard",
+      children:[
+        {
+          label: "main",
+          key: "/dashboard/main",
+        }
+      ]
+    },
     {
       key: "/monitor",
       icon: <VideoCameraOutlined />,
@@ -214,6 +225,7 @@ const MyLayout = ({ children }: any) => {
             padding: 24,
             minHeight: 280,
             background: colorBgContainer,
+            overflow: 'auto'
           }}
         >
           <Breadcrumb>

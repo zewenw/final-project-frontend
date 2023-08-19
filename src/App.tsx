@@ -13,10 +13,13 @@ import View from "./pages/photo/View";
 import Download from "./pages/photo/Download";
 import Permission from "./pages/user/Permission";
 
+import Dashboard from "./pages/Dashboard.tsx";
+
 function App() {
   return (
     <MyLayout>
       <Routes>
+        <Route path="main" element={<Dashboard />} />
         <Route path="tracing" element={<Tracing />} />
         <Route path="hardware" element={<Hardware />} />
         <Route path="log" element={<Log />} />

@@ -1,6 +1,7 @@
 import { Row, Col, Card, Form, Input, Button, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { LogoImg } from './utils/Tool';
+import { LogoImg } from '../utils/Tool';
+import { loginAPI } from '../services/auth';
 
 function Login() {
   const navigate = useNavigate();
@@ -34,6 +35,8 @@ function Login() {
             }}
             onFinish={async (v) => {
               console.log(v)
+              const res = await loginAPI(v)
+              console.log(res)
               message.success('Login Success')
               navigate('/admin/user')
             }}

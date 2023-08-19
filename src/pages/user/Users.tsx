@@ -1,4 +1,9 @@
-import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import {
   Button,
   Card,
@@ -10,12 +15,21 @@ import {
   Table,
   message,
 } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getAllUser } from "../../services/users";
 
 function Users() {
   const [isShow, setIsShow] = useState(false);
   const [myForm] = Form.useForm();
+  const [query, setQuery] = useState({});
+  const [data, setData] = useState([]);
 
+  useEffect(() => {
+    getAllUser(query).then((res) => {
+      console.log(res);
+      setData(res);
+    });
+  }, [query]);
   return (
     <>
       <Card
@@ -42,7 +56,7 @@ function Users() {
             }}
           >
             <Form.Item label="username" name="username">
-              <Input placeholder="please enter username" allowClear/>
+              <Input placeholder="please enter username" allowClear />
             </Form.Item>
             <Form.Item>
               <Button
@@ -53,32 +67,48 @@ function Users() {
             </Form.Item>
           </Form>
           <Table
+            dataSource={data}
+            rowKey="id"
             columns={[
               {
                 title: "serial",
+                dataIndex: "id",
                 width: 80,
               },
               {
                 title: "username",
+                dataIndex: "username",
               },
               {
                 title: "email",
+                dataIndex: "email",
               },
               {
                 title: "createTime",
+                dataIndex: "dateCreated",
                 width: 200,
               },
               {
                 title: "updateTime",
+                dataIndex: "lastUpdated",
                 width: 200,
               },
               {
                 title: "enabled",
+                dataIndex: "enabled",
                 width: 110,
               },
               {
                 title: "operations",
                 width: 110,
+                render() {
+                  return (
+                    <Space>
+                      <Button type="primary" icon={<EditOutlined />} />
+                      <Button type="primary" icon={<DeleteOutlined />} danger />
+                    </Space>
+                  );
+                },
               },
             ]}
           />

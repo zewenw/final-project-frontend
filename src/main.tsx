@@ -7,11 +7,13 @@ import "./index.css";
 import MyLayout from "./components/MyLayout.tsx";
 import Login from "./pages/Login.tsx";
 
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <>
     <Router>
       <Routes>
         <Route path="/" element={<Login/>}/>
+        <Route path="/dashboard/*" element={<App/>}/>
         <Route path="/monitor/*" element={<App/>}/>
         <Route path="/admin/*" element={<App/>}/>
         <Route path="/photo/*" element={<App/>}/>
