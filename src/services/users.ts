@@ -1,12 +1,14 @@
-import { get, post, patch, del } from '../utils/Request';
+import { get, post, put, del } from '../utils/Request';
 
 /**
  * get list
  * @param query
  * @returns
  */
-export const getAllUser = (query: any = {}) =>
-  get('/user/v1/users', query);
+export const getAllUser = (query: any) =>{
+
+  return get('/user/v1/users', query);
+}
 
 /**
  * get by id
@@ -21,8 +23,8 @@ export const getUserByUsername = (username: string) =>
  * @param data
  * @returns
  */
-export const insertAPI = (data: any) =>
-  post('/admin/medicine_categories', data);
+export const saveUser = (data: any) =>
+  post('/user/v1/user', data);
 
 /**
  * update by id
@@ -30,21 +32,15 @@ export const insertAPI = (data: any) =>
  * @param data
  * @returns
  */
-export const updateByIdAPI = (id: string, data: any) =>
-  patch('/admin/medicine_categories/' + id, data);
+export const updateUserByUsername = (data: any) =>
+  put('/user/v1/user', data);
 
 /**
  * delete by id
  * @param id
  * @returns
  */
-export const delByIdAPI = (id: string) =>
-  del('/admin/medicine_categories/' + id);
+export const deleteUserById = (id: string) =>
+  del('/user/v1/user/' + id);
 
-/**
- * 删除多个
- * @param ids 多个id使用,分割
- * @returns
- */
-export const delManyByIds = (ids: string) =>
-  del('/admin/medicine_categories/remove_many?ids=' + ids);
+
