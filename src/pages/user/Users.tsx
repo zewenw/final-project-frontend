@@ -19,7 +19,7 @@ import {
 } from "antd";
 import React, { useEffect, useState } from "react";
 import {
-  getAllUser,
+  getUserByPage,
   saveUser,
   getUserByUsername,
   updateUserByUsername,
@@ -29,16 +29,20 @@ import {
 function Users() {
   const [isShow, setIsShow] = useState(false);
   const [myForm] = Form.useForm();
-  const [query, setQuery] = useState({});
-  const [data, setData] = useState([]);
+  const [query, setQuery] = useState({ pageNo: 0, pageSize: 8 });
   const [currentUsername, setCurrentUsername] = useState("");
+  const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
-    getAllUser(query).then((res) => {
-      setData(res);
+    console.log(query)
+    getUserByPage(query).then((res) => {
+      console.log(res);
+      setData(res.content);
       //TODO pagination
-      // setTotal(res.length());
+      setTotal(res.totalElements);
+      setPageSize(res.size);
     });
   }, [query]);
 
@@ -81,7 +85,7 @@ function Users() {
                 message.success("search function");
               } else {
                 console.log("query all");
-                setQuery([]);
+                setQuery({ pageNo: 0, pageSize: 2 });
               }
             }}
           >
@@ -149,7 +153,7 @@ function Users() {
                         onConfirm={async () => {
                           console.log(r.id);
                           await deleteUserById(r.id);
-                          setQuery({});
+                          setQuery({ pageNo: 0, pageSize: 2 });
                         }}
                       >
                         <Button
@@ -164,12 +168,14 @@ function Users() {
               },
             ]}
             pagination={{
-              total, // 总数量
-              // 页码改变的时候执行
-              onChange(page: any) {
+              defaultCurrent: 1,
+              total: total,
+              pageSize: pageSize,
+              onChange(e: any) {
+                console.log('onchange' , e);
                 setQuery({
-                  ...query,
-                  page,
+                  pageNo: e,
+                  pageSize: pageSize
                 });
               },
             }}
@@ -198,7 +204,7 @@ function Users() {
               message.success("save user succeed");
             }
             setIsShow(false);
-            setQuery({});
+            setQuery({ pageNo: 0, pageSize: 2 });
           }}
           labelCol={{ span: 4 }}
           form={myForm}

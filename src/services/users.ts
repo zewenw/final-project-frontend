@@ -27,6 +27,14 @@ export const saveUser = (data: any) =>
   post('/user/v1/user', data);
 
 /**
+ * add
+ * @param data
+ * @returns
+ */
+export const getUserByPage = (data: any) =>
+  post('/user/v1/users/page', data);
+
+/**
  * update by id
  * @param id
  * @param data

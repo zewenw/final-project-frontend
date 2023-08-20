@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 // @ts-ignore
-import NProgress from 'nprogress';
-import 'nprogress/nprogress.css';
-import { getToken, serverUrl } from './Tool';
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+import { getToken, serverUrl } from "./Tool";
 
 const instance = axios.create({
   baseURL: serverUrl, // base url for any request
@@ -15,7 +15,7 @@ instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     // @ts-ignore
-    config.headers.token = getToken();
+    // config.headers.token = getToken();
     NProgress.start(); //start up loading
     return config;
   },
@@ -31,10 +31,16 @@ instance.interceptors.response.use(
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     NProgress.done();
+    
     return response;
   },
   function (error) {
     NProgress.done(); //close loading
+    if (error.message === 'Network Error') {
+      // Redirect to the login page
+      //TODO redirect to login page function need to complete
+      window.location.href = "http://localhost/user/login";
+    }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     return Promise.reject(error);
