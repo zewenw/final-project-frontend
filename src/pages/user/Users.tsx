@@ -36,7 +36,6 @@ function Users() {
   const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
-    console.log(query);
     getUserByPage(query).then((res) => {
       setData(res.content);
       setTotal(res.totalElements);
@@ -70,9 +69,7 @@ function Users() {
             layout="inline"
             onFinish={(v) => {
               //TODO search function
-              console.log(v);
               if (v.username.length !== 0) {
-                console.log("query single");
                 getUserByUsername(v.username).then((res) => {
                   if (res.length !== 0) {
                     setData(res);
@@ -82,7 +79,6 @@ function Users() {
                 });
                 message.success("search function");
               } else {
-                console.log("query all");
                 setQuery({ pageNo: 0, pageSize: pageSize });
               }
             }}
@@ -130,6 +126,23 @@ function Users() {
                 title: "enabled",
                 dataIndex: "enabled",
                 width: 110,
+                render(v: any, r: any) {
+                  return (
+                    <Space>
+                      <Switch
+                        checked={r.enabled}
+                        onChange={async () => {
+                          console.log(r);
+                          r.enabled = !r.enabled
+                          console.log(r);
+                          await updateUserByUsername(r);
+                          message.success("enable user succeed");
+                          setQuery({ pageNo: 0, pageSize: pageSize });
+                        }}
+                      />
+                    </Space>
+                  );
+                },
               },
               {
                 title: "operations",
@@ -149,7 +162,6 @@ function Users() {
                       <Popconfirm
                         title="are you sure to delete this item?"
                         onConfirm={async () => {
-                          console.log(r.id);
                           await deleteUserById(r.id);
                           setQuery({ pageNo: 0, pageSize: pageSize });
                         }}
@@ -170,7 +182,6 @@ function Users() {
               total: total,
               pageSize: pageSize,
               onChange(e: any) {
-                console.log("onchange", e);
                 setQuery({
                   pageNo: e - 1,
                   pageSize: pageSize,
@@ -202,7 +213,7 @@ function Users() {
               message.success("save user succeed");
             }
             setIsShow(false);
-            setQuery({ pageNo: 0, pageSize: 2 });
+            setQuery({ pageNo: 0, pageSize: pageSize });
           }}
           labelCol={{ span: 4 }}
           form={myForm}
