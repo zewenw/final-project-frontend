@@ -17,6 +17,7 @@ import {
 } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LogoImg as Logo, AvatarImg as Avatar } from "../utils/Tool";
+import { get, post, put, del } from "../utils/Request";
 
 const { Header, Sider, Content } = Layout;
 
@@ -43,7 +44,10 @@ const personalOnClick = (e: any) => {
 
 const onLogout = () => {
   //TODO Logout function
-  alert("logout");
+  post("/logout");
+  alert('logout')
+  sessionStorage.clear();
+  window.location.href = "http://localhost/user/login";
 };
 
 const findDeepPath = (key: string, menus: any) => {
@@ -73,12 +77,12 @@ const MyLayout = ({ children }: any) => {
       key: "/dashboard",
       icon: <VideoCameraOutlined />,
       label: "Dashboard",
-      children:[
+      children: [
         {
           label: "main",
           key: "/dashboard/main",
-        }
-      ]
+        },
+      ],
     },
     {
       key: "/monitor",
@@ -225,7 +229,7 @@ const MyLayout = ({ children }: any) => {
             padding: 24,
             minHeight: 280,
             background: colorBgContainer,
-            overflow: 'auto'
+            overflow: "auto",
           }}
         >
           <Breadcrumb>
@@ -233,7 +237,7 @@ const MyLayout = ({ children }: any) => {
               <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>
             ))}
           </Breadcrumb>
-         
+
           {children}
         </Content>
       </Layout>

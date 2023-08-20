@@ -3,6 +3,7 @@ import {
   EditOutlined,
   PlusOutlined,
   SearchOutlined,
+  UserAddOutlined,
 } from "@ant-design/icons";
 import {
   Button,
@@ -25,10 +26,12 @@ import {
   updateUserByUsername,
   deleteUserById,
 } from "../../services/users";
+import MyTransfer from "../../components/MyTranfer";
 
 function Users() {
-  const [isShow, setIsShow] = useState(false);
-  const [myForm] = Form.useForm();
+  const [isUserShow, setIsUserShow] = useState(false);
+  const [isRoleShow, setIsRoleShow] = useState(false);
+  const [userForm] = Form.useForm();
   const [query, setQuery] = useState({ pageNo: 0, pageSize: 8 });
   const [currentUsername, setCurrentUsername] = useState("");
   const [data, setData] = useState([]);
@@ -44,10 +47,10 @@ function Users() {
   }, [query]);
 
   useEffect(() => {
-    if (!isShow) {
+    if (!isUserShow) {
       setCurrentUsername("");
     }
-  }, [isShow]);
+  }, [isUserShow]);
   return (
     <>
       <Card
@@ -58,7 +61,7 @@ function Users() {
               type="primary"
               icon={<PlusOutlined />}
               onClick={() => {
-                setIsShow(true);
+                setIsUserShow(true);
               }}
             />
           </>
@@ -132,9 +135,7 @@ function Users() {
                       <Switch
                         checked={r.enabled}
                         onChange={async () => {
-                          console.log(r);
-                          r.enabled = !r.enabled
-                          console.log(r);
+                          r.enabled = !r.enabled;
                           await updateUserByUsername(r);
                           message.success("enable user succeed");
                           setQuery({ pageNo: 0, pageSize: pageSize });
@@ -152,11 +153,20 @@ function Users() {
                     <Space>
                       <Button
                         type="primary"
+                        icon={<UserAddOutlined />}
+                        onClick={() => {
+                          setIsRoleShow(true);
+                          setCurrentUsername(r.username);
+                          userForm.setFieldsValue(r);
+                        }}
+                      />
+                      <Button
+                        type="primary"
                         icon={<EditOutlined />}
                         onClick={() => {
-                          setIsShow(true);
+                          setIsUserShow(true);
                           setCurrentUsername(r.username);
-                          myForm.setFieldsValue(r);
+                          userForm.setFieldsValue(r);
                         }}
                       />
                       <Popconfirm
@@ -192,12 +202,12 @@ function Users() {
         </Space>
       </Card>
       <Modal
-        title="Edit"
-        open={isShow}
+        title="Edit User"
+        open={isUserShow}
         maskClosable={false}
-        onCancel={() => setIsShow(false)}
+        onCancel={() => setIsUserShow(false)}
         onOk={() => {
-          myForm.submit();
+          userForm.submit();
         }}
         destroyOnClose
       >
@@ -212,11 +222,11 @@ function Users() {
               await saveUser(v);
               message.success("save user succeed");
             }
-            setIsShow(false);
+            setIsUserShow(false);
             setQuery({ pageNo: 0, pageSize: pageSize });
           }}
           labelCol={{ span: 4 }}
-          form={myForm}
+          form={userForm}
         >
           <Form.Item
             label="username"
@@ -250,6 +260,18 @@ function Users() {
             />
           </Form.Item>
         </Form>
+      </Modal>
+      <Modal
+        title="Role Edit"
+        open={isRoleShow}
+        maskClosable={false}
+        onCancel={() => setIsRoleShow(false)}
+        onOk={() => {
+          setIsRoleShow(false)
+        }}
+        destroyOnClose
+      >
+        <MyTransfer object={currentUsername}/>
       </Modal>
     </>
   );

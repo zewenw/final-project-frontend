@@ -32,7 +32,7 @@ export const saveUser = (data: any) =>
  * @returns
  */
 export const getUserByPage = (data: any) =>
-  post('/user/v1/users/page', data);
+  get('/user/v1/users/page', data);
 
 /**
  * update by id

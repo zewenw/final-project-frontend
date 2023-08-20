@@ -36,7 +36,7 @@ instance.interceptors.response.use(
   },
   function (error) {
     NProgress.done(); //close loading
-    if (error.message === 'Network Error') {
+    if (error.message === 'Network Error' || error.code === 'ERR_BAD_REQUEST') {
       // Redirect to the login page
       //TODO redirect to login page function need to complete
       window.location.href = "http://localhost/user/login";
