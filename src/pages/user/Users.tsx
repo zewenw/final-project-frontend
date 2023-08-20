@@ -36,11 +36,9 @@ function Users() {
   const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
-    console.log(query)
+    console.log(query);
     getUserByPage(query).then((res) => {
-      console.log(res);
       setData(res.content);
-      //TODO pagination
       setTotal(res.totalElements);
       setPageSize(res.size);
     });
@@ -85,7 +83,7 @@ function Users() {
                 message.success("search function");
               } else {
                 console.log("query all");
-                setQuery({ pageNo: 0, pageSize: 2 });
+                setQuery({ pageNo: 0, pageSize: pageSize });
               }
             }}
           >
@@ -153,7 +151,7 @@ function Users() {
                         onConfirm={async () => {
                           console.log(r.id);
                           await deleteUserById(r.id);
-                          setQuery({ pageNo: 0, pageSize: 2 });
+                          setQuery({ pageNo: 0, pageSize: pageSize });
                         }}
                       >
                         <Button
@@ -172,10 +170,10 @@ function Users() {
               total: total,
               pageSize: pageSize,
               onChange(e: any) {
-                console.log('onchange' , e);
+                console.log("onchange", e);
                 setQuery({
-                  pageNo: e,
-                  pageSize: pageSize
+                  pageNo: e - 1,
+                  pageSize: pageSize,
                 });
               },
             }}
