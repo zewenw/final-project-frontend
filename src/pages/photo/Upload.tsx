@@ -1,5 +1,5 @@
 import { LogoutOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Modal, Space } from "antd";
+import { Button, Checkbox, Form, Input, Modal, Space, message } from "antd";
 import React, { useState } from "react";
 import { getUserByUsername } from "../../services/upload";
 
@@ -10,7 +10,7 @@ function Upload() {
     console.log("Success:", values.username);
     var val = await getUserByUsername(values.username);
     console.log(val)
-    alert(JSON.stringify(val))
+    message.success(JSON.stringify(val))
   };
 
   const onFinishFailed = (errorInfo: any) => {
