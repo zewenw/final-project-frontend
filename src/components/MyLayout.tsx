@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
+  FundOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  PictureOutlined,
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
@@ -75,7 +77,7 @@ const MyLayout = ({ children }: any) => {
   const sideMenuItems: MenuProps["items"] = [
     {
       key: "/dashboard",
-      icon: <VideoCameraOutlined />,
+      icon: <FundOutlined />,
       label: "Dashboard",
       children: [
         {
@@ -132,7 +134,7 @@ const MyLayout = ({ children }: any) => {
     },
     {
       key: "/photo",
-      icon: <VideoCameraOutlined />,
+      icon: <PictureOutlined />,
       label: "Photo",
       children: [
         {
