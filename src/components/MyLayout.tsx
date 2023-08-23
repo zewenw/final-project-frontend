@@ -138,7 +138,7 @@ const MyLayout = ({ children }: any) => {
       label: "Photo",
       children: [
         {
-          label: "Upload",
+          label: "Interaction",
           key: "/photo/upload",
         },
         {
