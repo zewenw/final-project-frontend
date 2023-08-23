@@ -4,6 +4,7 @@ import {
   PlusOutlined,
   SearchOutlined,
   UserAddOutlined,
+  UserAddOutlined,
 } from "@ant-design/icons";
 import {
   Button,
@@ -27,8 +28,12 @@ import {
   deleteUserById,
 } from "../../services/users";
 import MyTransfer from "../../components/MyTranfer";
+import MyTransfer from "../../components/MyTranfer";
 
 function Users() {
+  const [isUserShow, setIsUserShow] = useState(false);
+  const [isRoleShow, setIsRoleShow] = useState(false);
+  const [userForm] = Form.useForm();
   const [isUserShow, setIsUserShow] = useState(false);
   const [isRoleShow, setIsRoleShow] = useState(false);
   const [userForm] = Form.useForm();
@@ -48,8 +53,10 @@ function Users() {
 
   useEffect(() => {
     if (!isUserShow) {
+    if (!isUserShow) {
       setCurrentUsername("");
     }
+  }, [isUserShow]);
   }, [isUserShow]);
   return (
     <>
@@ -61,6 +68,7 @@ function Users() {
               type="primary"
               icon={<PlusOutlined />}
               onClick={() => {
+                setIsUserShow(true);
                 setIsUserShow(true);
               }}
             />
@@ -136,6 +144,7 @@ function Users() {
                         checked={r.enabled}
                         onChange={async () => {
                           r.enabled = !r.enabled;
+                          r.enabled = !r.enabled;
                           await updateUserByUsername(r);
                           message.success("enable user succeed");
                           setQuery({ pageNo: 0, pageSize: pageSize });
@@ -162,10 +171,21 @@ function Users() {
                       />
                       <Button
                         type="primary"
+                        icon={<UserAddOutlined />}
+                        onClick={() => {
+                          setIsRoleShow(true);
+                          setCurrentUsername(r.username);
+                          userForm.setFieldsValue(r);
+                        }}
+                      />
+                      <Button
+                        type="primary"
                         icon={<EditOutlined />}
                         onClick={() => {
                           setIsUserShow(true);
+                          setIsUserShow(true);
                           setCurrentUsername(r.username);
+                          userForm.setFieldsValue(r);
                           userForm.setFieldsValue(r);
                         }}
                       />
@@ -206,7 +226,9 @@ function Users() {
         open={isUserShow}
         maskClosable={false}
         onCancel={() => setIsUserShow(false)}
+        onCancel={() => setIsUserShow(false)}
         onOk={() => {
+          userForm.submit();
           userForm.submit();
         }}
         destroyOnClose
@@ -223,9 +245,11 @@ function Users() {
               message.success("save user succeed");
             }
             setIsUserShow(false);
+            setIsUserShow(false);
             setQuery({ pageNo: 0, pageSize: pageSize });
           }}
           labelCol={{ span: 4 }}
+          form={userForm}
           form={userForm}
         >
           <Form.Item
@@ -260,6 +284,18 @@ function Users() {
             />
           </Form.Item>
         </Form>
+      </Modal>
+      <Modal
+        title="Role Edit"
+        open={isRoleShow}
+        maskClosable={false}
+        onCancel={() => setIsRoleShow(false)}
+        onOk={() => {
+          setIsRoleShow(false)
+        }}
+        destroyOnClose
+      >
+        <MyTransfer object={currentUsername}/>
       </Modal>
       <Modal
         title="Role Edit"
