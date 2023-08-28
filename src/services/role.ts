@@ -11,13 +11,43 @@ export const getAllRole = () =>{
 }
 
 /**
+ * get current user's roles
+ * @param query
+ * @returnsF
+ */
+export const getOwnedRolesByUsername = (username : string) =>{
+
+  return get('/user/v1/roles/' + username );
+}
+
+/**
+ * Get the current user does not own the role in
+ * @param query
+ * @returnsF
+ */
+export const getLackedRolesByUsername = (username : string) =>{
+
+  return get('/user/v1/roles/lacked/' + username );
+}
+
+/**
  * bind a new Role with the user
  * @param query
  * @returns
  */
 export const bindUserWithRole = (roleId: number, username: string) =>{
 
-  return put('/user/v1/role/' + roleId + '/' + username);
+  return put('/user/v1/role/bind/' + roleId + '/' + username);
+}
+
+/**
+ * bind a new Role with the user
+ * @param query
+ * @returns
+ */
+export const unbindUserWithRole = (roleId: number, username: string) =>{
+
+  return put('/user/v1/role/unbind/' + roleId + '/' + username);
 }
 
 /**
