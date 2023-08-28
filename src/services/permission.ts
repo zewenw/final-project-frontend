@@ -1,3 +1,4 @@
+import { UrlWithStringQuery } from 'url';
 import { get, post, put, del } from '../utils/Request';
 
 /**
@@ -5,9 +6,39 @@ import { get, post, put, del } from '../utils/Request';
  * @param query
  * @returns
  */
-export const getAllPermission = (query: any) =>{
+export const getAllPermission = () =>{
 
-  return get('/user/v1/users', query);
+  return get('/user/v1/permissions');
+}
+
+/**
+ * get permissions by role id
+ * @param query
+ * @returns
+ */
+export const getOwnedPermissions = (roleId : string) =>{
+
+  return get('/user/v1/permissions/' + roleId);
+}
+
+/**
+ * bind permissions with role
+ * @param query
+ * @returns
+ */
+export const bindPermissionWithRole = (roleId : string, permissionId : string) =>{
+
+  return put('/user/v1/permissions/bind/' + roleId + "/" + permissionId);
+}
+
+/**
+ * unbind permissions with role
+ * @param query
+ * @returns
+ */
+export const unbindPermissionWithRole = (roleId : string, permissionId : string) =>{
+
+  return put('/user/v1/permissions/unbind/' + roleId + "/" + permissionId);
 }
 
 /**

@@ -26,7 +26,7 @@ import {
   updateUserByUsername,
   deleteUserById,
 } from "../../services/users";
-import MyTransfer from "../../components/MyTranfer";
+import RoleTransfer from "../../components/RoleTranfer";
 
 function Users() {
   const [isUserShow, setIsUserShow] = useState(false);
@@ -271,7 +271,7 @@ function Users() {
         }}
         destroyOnClose
       >
-        <MyTransfer username={currentUsername}/>
+        <RoleTransfer username={currentUsername}/>
       </Modal>
     </>
   );

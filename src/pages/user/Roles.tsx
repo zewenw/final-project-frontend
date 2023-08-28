@@ -26,7 +26,8 @@ import {
   updateRoleById,
   deleteUserById,
 } from "../../services/role";
-import MyTransfer from "../../components/MyTranfer";
+import RoleTransfer from "../../components/RoleTranfer";
+import PermissionTransfer from "../../components/PermissionTransfer";
 
 function Roles() {
   const [isRoleShow, setIsRoleShow] = useState(false);
@@ -260,7 +261,7 @@ function Roles() {
         }}
         destroyOnClose
       >
-        <MyTransfer object={currentRoleId} />
+        <PermissionTransfer roleId={currentRoleId} />
       </Modal>
     </>
   );
