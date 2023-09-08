@@ -42,11 +42,11 @@ instance.interceptors.response.use(
       message.error('user doesn not have permission to execute this operation')
     }
     NProgress.done(); //close loading
-    // if (error.message === 'Network Error' || error.code === 'ERR_BAD_REQUEST') {
-    //   // Redirect to the login page
-    //   //TODO redirect to login page function need to complete
-    //   window.location.href = "http://localhost/user/login";
-    // }
+    if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
+      // Redirect to the login page
+      //TODO redirect to login page function need to complete
+      window.location.href = "http://localhost/user/login";
+    }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     return Promise.reject(error);
