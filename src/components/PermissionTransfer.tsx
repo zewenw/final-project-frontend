@@ -66,10 +66,10 @@ const PermissionTransfer = ({ roleId }) => {
     setOwnedPermissionKeys(nextTargetKeys);
     if (direction === "left") {
       unbindPermissionWithRole(roleId, moveKeys[0]);
-      message.success("unbind permission with role success");
+      message.success("bind permission with role success");
     } else {
       bindPermissionWithRole(roleId, moveKeys[0]);
-      message.success("bind permission with role success");
+      message.success("unbind permission with role success");
     }
   };
 
@@ -93,7 +93,7 @@ const PermissionTransfer = ({ roleId }) => {
   return (
     <Transfer
       dataSource={allPermission}
-      titles={["Permissions", "Owned Permissions"]}
+      titles={["Owned Permissions", "Permissions"]}
       targetKeys={ownedPermissionKeys}
       selectedKeys={lackedPermissionKeys}
       onChange={onChange}
